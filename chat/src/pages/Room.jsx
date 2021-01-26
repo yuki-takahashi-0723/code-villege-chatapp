@@ -1,6 +1,8 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { ComentCard, MiniSpecer, PraymaryButton, TextInput } from '../Uikit'
 import styled from 'styled-components'
+import { db, timestamp } from '../config/firebase'
+import { AuthContext } from '../AuthService'
 
 const TalkArea = styled.div`
     width:70%;
@@ -11,27 +13,47 @@ const TalkArea = styled.div`
 
 const Room = () =>{
 
-    const handleSubmit = (e)=>{
-        e.preventDefault()
-        console.log(coment)
-    }
-
-
     const [coment,setComent]=useState('')
-
-
+    const [talks,setTalks]=useState([])
+    
     const inputComent = useCallback((e)=>{
         setComent(e.target.value)
     },[setComent])
+    const user = useContext(AuthContext)
+    
+    const handleSubmit = (e)=>{
+        e.preventDefault()
+        db.collection('message').add({
+            user:user.displayName,
+            content : coment,
+            created_at : timestamp.now()
+        })
+        setComent('')
+
+    }
+
+    useEffect(()=>{
+       db.collection('message').orderBy('created_at','asc')
+        .onSnapshot(snapshot=>{
+            setTalks(snapshot.docs.map(doc=>({id:doc.id,data:doc.data()})))
+        })
+    },[])
+
+
+
     return (
         <TalkArea>
         <h2>チャット画面</h2>
         <form onSubmit={handleSubmit}> 
-            <ComentCard
-                userName={'吉良吉影'}
-                
-                coment={'いいや押すね！'}
+        {talks.map(talk=>(
+            <ComentCard 
+                key={talk.id}
+                userName={talk.data.user}
+                coment={talk.data.content}
             />
+
+        )
+        )}
             <MiniSpecer/>
             <TextInput
                 label={'コメント入力'}
