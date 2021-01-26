@@ -1,7 +1,9 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useContext, useState } from 'react'
 import { MiniSpecer, PraymaryButton, TextInput } from '../Uikit'
 import styled from 'styled-components'
 import { auth } from '../config/firebase'
+import { AuthContext } from '../AuthService'
+import { Redirect } from 'react-router-dom'
 
 const ComponentWrap = styled.div`
     position:relative;
@@ -24,23 +26,7 @@ const InputForm = styled.form`
 
 
 
-const SignUp = () =>{
-    const handleSubmit = (e)=>{
-        e.preventDefault()
-        if(name === '' || email === '' || password === ''){
-            return false
-        }
-        auth.createUserWithEmailAndPassword(email,password)
-            .then(({user})=>{
-                user.updateProfile({
-                    displayName:name
-                })
-            })
-            .catch(error=>{
-                console.log(error)
-            })
-    }
-
+const SignUp = ({history}) =>{
 
     const [name,setName]=useState(''),
           [email,setEmail]=useState(''),
@@ -57,6 +43,33 @@ const SignUp = () =>{
     const inputPassword = useCallback((e)=>{
         setPassword(e.target.value)
     },[setPassword])
+
+    const user = useContext(AuthContext)
+    if(user){
+        return <Redirect to={'/'}/>
+    }
+
+    const handleSubmit = (e)=>{
+        e.preventDefault()
+        if(name === '' || email === '' || password === ''){
+            return false
+        }
+        auth.createUserWithEmailAndPassword(email,password)
+            .then(({user})=>{
+                user.updateProfile({
+                    displayName:name
+                })
+                history.push('/')
+                setName('')
+                setEmail('')
+                setPassword('')
+            })
+            .catch(error=>{
+                console.log(error)
+            })
+    }
+
+
 
 
 

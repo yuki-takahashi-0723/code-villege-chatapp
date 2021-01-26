@@ -1,7 +1,9 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useContext, useState } from 'react'
 import { MiniSpecer, PraymaryButton, TextInput } from '../Uikit'
 import styled from 'styled-components'
 import { auth } from '../config/firebase'
+import { AuthContext } from '../AuthService'
+import { Redirect } from 'react-router-dom'
 
 const ComponentWrap = styled.div`
     position:relative;
@@ -19,18 +21,8 @@ const InputForm = styled.form`
     margin:auto;
 `
 
-const SignIn = () =>{
-    const handleSubmit = (e)=>{
-        e.preventDefault()
-        auth.signInWithEmailAndPassword(email,password)
-            .then(user=>{
-                console.log(user)
-            })
-            .catch(error=>{
-                console.log(error)
-            })
-    }
 
+const SignIn = ({history}) =>{
 
     const [email,setEmail]=useState(''),
           [password,setPassword]=useState('')
@@ -43,6 +35,31 @@ const SignIn = () =>{
             setPassword(e.target.value)
         },[setPassword])
     
+
+    const user = useContext(AuthContext)
+    if(user){
+       return <Redirect to={'/'}/>
+    }
+
+
+    const handleSubmit = (e)=>{
+        e.preventDefault()
+        if( email === '' || password === ''){
+            return false
+        }
+        auth.signInWithEmailAndPassword(email,password)
+            .then(user=>{
+                console.log(user)
+                history.push('/')
+                setPassword('')
+                setEmail('')
+            })
+            .catch(error=>{
+                console.log(error)
+            })
+    }
+
+
 
 
     return (
