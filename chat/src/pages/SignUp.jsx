@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react'
 import { MiniSpecer, PraymaryButton, TextInput } from '../Uikit'
 import styled from 'styled-components'
+import { auth } from '../config/firebase'
 
 const ComponentWrap = styled.div`
     position:relative;
@@ -26,7 +27,18 @@ const InputForm = styled.form`
 const SignUp = () =>{
     const handleSubmit = (e)=>{
         e.preventDefault()
-        console.log(name)
+        if(name === '' || email === '' || password === ''){
+            return false
+        }
+        auth.createUserWithEmailAndPassword(email,password)
+            .then(({user})=>{
+                user.updateProfile({
+                    displayName:name
+                })
+            })
+            .catch(error=>{
+                console.log(error)
+            })
     }
 
 
