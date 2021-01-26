@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useState } from 'react'
-import { MiniSpecer, PraymaryButton, TextInput } from '../Uikit'
+import { ImageArea, MiniSpecer, PraymaryButton, TextInput } from '../Uikit'
 import styled from 'styled-components'
 import { auth } from '../config/firebase'
 import { AuthContext } from '../AuthService'
@@ -30,7 +30,8 @@ const SignUp = ({history}) =>{
 
     const [name,setName]=useState(''),
           [email,setEmail]=useState(''),
-          [password,setPassword]=useState('')
+          [password,setPassword]=useState(''),
+          [image,setImage]=useState([])
 
 
 
@@ -57,7 +58,8 @@ const SignUp = ({history}) =>{
         auth.createUserWithEmailAndPassword(email,password)
             .then(({user})=>{
                 user.updateProfile({
-                    displayName:name
+                    displayName:name,
+                    photoURL:image.path
                 })
                 history.push('/')
                 setName('')
@@ -114,6 +116,7 @@ const SignUp = ({history}) =>{
                         type={'password'}
                     />
                 </div>
+                <ImageArea setImage={setImage} image={image} label={'プロフィール画像を設定する'}/>
                 <MiniSpecer/>
                 <PraymaryButton
                     label={'登録'}

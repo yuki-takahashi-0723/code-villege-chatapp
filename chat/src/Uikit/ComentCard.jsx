@@ -6,22 +6,40 @@ import { CardMedia } from '@material-ui/core';
 import { CardContent } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { MiniSpecer } from '.';
+import { makeStyles } from '@material-ui/core/styles';
+const useStyles = makeStyles((theme) => ({
+    
+    media: {
+      height: 0,
+      paddingTop: '56.25%', // 16:9
+    },
+}))
+
 const ComentCard = (props) =>{
+    const classes = useStyles();
+    const image = props.image
+ 
     return (
         <>
-            <Card>
+            <Card >
             <CardHeader
                     avatar={
-                    <Avatar aria-label="recipe" >
-                        {props.avater}
-                    </Avatar>
+                    <Avatar  src={props.avater}/>
                     }
                 
                     title={props.userName}
                 />
-                <CardMedia
-                    image={props.image}
-                />
+                {
+                 image ? (
+                     <CardMedia
+                         className={classes.media}
+                         image={props.image}
+                     />
+                 ):(
+                     <></>
+                 )
+                    
+                }
 
                 <CardContent>
                     <Typography> 
