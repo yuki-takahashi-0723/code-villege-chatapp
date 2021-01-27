@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react'
-import { ComentCard, ImageArea, MiniSpecer, PraymaryButton, TextInput } from '../Uikit'
+import { ComentCard, ImageArea, MiniSpecer, NextIconButton, PraymaryButton, TextInput } from '../Uikit'
 import styled from 'styled-components'
 import { auth, db, timestamp } from '../config/firebase'
 import { AuthContext } from '../AuthService'
@@ -13,17 +13,17 @@ const TalkArea = styled.div`
 
 
 const Room = () =>{
-
     const [coment,setComent]=useState('')
     const [talks,setTalks]=useState([])
     const [image,setImage]=useState('')
+    // const [lastVisisble,setLastVisible]=useState('')
+  
     
     const inputComent = useCallback((e)=>{
         setComent(e.target.value)
     },[setComent])
     const user = useContext(AuthContext)
-    console.log(image)
-    console.log(image === '')
+    
     
     const handleSubmit = (e)=>{
         e.preventDefault()
@@ -31,7 +31,6 @@ const Room = () =>{
             return false
         }
         if(image === '') {
-            
             db.collection('message').add({
                 user:user.displayName,
                 content : coment,
@@ -40,23 +39,59 @@ const Room = () =>{
             })
         }
         else {
-           
             db.collection('message').add({
                 user:user.displayName,
                 content : coment,
                 icon: user.photoURL,
                 created_at : timestamp.now(),
-                image : image.path 
-                
+                image : image.path  
             })
         }
         setComent('')
         setImage('')
-
+    }
+    
+    
+    const backlog = () =>{
+        if (talks.length < 5) {
+            return false
+        }
+        const lastVisisble = talks.shift()　//現在の表示画面の１番上
+     
+        db.collection('message').orderBy('created_at','asc')
+            .endBefore(lastVisisble.data.created_at).limitToLast(5)
+            .get().then(snapshot=>{
+                const setBackVisible = snapshot.docs.map(doc=>({id:doc.id,data:doc.data()}))
+              
+                if(setBackVisible.length === 0){
+                    return false
+                }
+                setTalks(setBackVisible)
+            })
     }
 
+  
+    const advancelog = ()=>{
+        if(talks.length === 0){
+            return false
+        }
+        const firstVisisble = talks[talks.length - 1]　//表示の最後のコメント
+        // console.log(firstVisisble)
+        db.collection('message').orderBy('created_at','asc')
+        .startAfter(firstVisisble.data.created_at).limitToLast(5)
+        .get().then(snapshot=>{
+            const setAdvanceVisible = snapshot.docs.map(doc=>({id:doc.id,data:doc.data()}))
+            // console.log(setAdvanceVisible)
+            if(setAdvanceVisible.length === 0){
+                return false
+            }
+            setTalks(setAdvanceVisible)
+        })
+    }
+
+        
     useEffect(()=>{
-       db.collection('message').orderBy('created_at','asc')
+        db.collection('message').orderBy('created_at','asc').limitToLast(5)
         .onSnapshot(snapshot=>{
             setTalks(snapshot.docs.map(doc=>({id:doc.id,data:doc.data()})))
         })
@@ -79,6 +114,7 @@ const Room = () =>{
 
         )
         )}
+            <NextIconButton backlog={backlog} advancelog={advancelog}/>
             <MiniSpecer/>
             <TextInput
                 label={'コメント入力'}
