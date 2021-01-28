@@ -1,14 +1,26 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react'
-import { ComentCard, ImageArea, MiniSpecer, NextIconButton, PraymaryButton, TextInput } from '../Uikit'
+import { ClickButton, ComentCard, ImageArea, MiniSpecer, NextIconButton, PraymaryButton, TextInput } from '../Uikit'
 import styled from 'styled-components'
 import { auth, db, timestamp } from '../config/firebase'
 import { AuthContext } from '../AuthService'
 
+const AllWrap = styled.div`
+    background-color:#f5f5f5;
+    color:#CCFF66;
+    text-shadow:0.1px 0 1px  black;
+`
+
+const Title = styled.h2`
+    font-size:50px;
+    font-family: 'Amatic SC', cursive;
+    text-shadow:0.1px 0 5px  black;
+    margin:0;
+    
+`
 
 const TalkArea = styled.div`
     width:40%;
     margin:0 auto;
-    text-align:center;
 `
 
 
@@ -69,8 +81,6 @@ const Room = () =>{
                 setTalks(setBackVisible)
             })
     }
-
-  
     const advancelog = ()=>{
         if(talks.length === 0){
             return false
@@ -100,42 +110,48 @@ const Room = () =>{
 
 
     return (
-        <TalkArea>
-        <h2>チャット画面</h2>
-        <form onSubmit={handleSubmit}> 
-        {talks.map(talk=>(
-            <ComentCard 
-                key={talk.id}
-                avater={talk.data.icon}
-                userName={talk.data.user}
-                coment={talk.data.content}
-                image={talk.data.image} 
-            />
+        <AllWrap>
+                <Title>Chat Room</Title>
+            <TalkArea>
+                <form onSubmit={handleSubmit}> 
+                {talks.map(talk=>(
+                    <ComentCard 
+                        key={talk.id}
+                        avater={talk.data.icon}
+                        userName={talk.data.user}
+                        coment={talk.data.content}
+                        image={talk.data.image} 
+                    />
 
-        )
-        )}
-            <NextIconButton backlog={backlog} advancelog={advancelog}/>
-            <MiniSpecer/>
-            <TextInput
-                label={'コメント入力'}
-                fullWidth={true}
-                required={true}
-                multiline={true}
-                rows={5}
-                value={coment}
-                onChange={inputComent}
-                type={'text'}
-            />
-            <MiniSpecer/>
-            <PraymaryButton
-                label={'コメント送信'}
-            />  
-            
-            <ImageArea image={image} setImage={setImage}　label={'画像を投稿する'}/>
-            <MiniSpecer/>
-        </form>
-        <button　onClick={()=>auth.signOut()}>サインアウト</button>
-        </TalkArea>
+                )
+                )}
+                    <NextIconButton backlog={backlog} advancelog={advancelog}/>
+                    <MiniSpecer/>
+                    <TextInput
+                        label={'コメント入力'}
+                        fullWidth={true}
+                        required={true}
+                        multiline={true}
+                        rows={5}
+                        value={coment}
+                        onChange={inputComent}
+                        type={'text'}
+                    />
+                    <MiniSpecer/>
+                    <ImageArea image={image} setImage={setImage}　label={'画像を投稿する'}/>
+                    <MiniSpecer/>
+                    <PraymaryButton
+                        label={'コメント送信'} type={'submit'}
+                    />  
+                    
+                    <MiniSpecer/>
+                </form>
+                <ClickButton
+                    label={'サインアウトする'}　 onClick={()=>auth.signOut()}
+                />
+              
+            </TalkArea>
+        </AllWrap>
         
     )
 }

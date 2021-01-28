@@ -1,15 +1,30 @@
 import { Avatar, IconButton } from '@material-ui/core'
 import React from 'react'
 import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
-import Styled from 'styled-components'
+
 import { useCallback } from 'react';
 import { storage } from '../config/firebase';
+import styled from 'styled-components';
 
 
 
-const NoDisplayInput = Styled.input`
+
+const NoDisplayInput = styled.input`
     display:none;
 `
+
+const FlexBox = styled.div`
+    display:flex;
+    justify-content:space-around;
+    
+`
+
+const IconLabel = styled.label`
+    color:#80b11e;
+    
+`
+
+
 
 
 
@@ -39,18 +54,18 @@ const ImageArea = (props) =>{
         })
     },[props.setImage])
     return(
-        <div>
-           <Avatar src={props.image.path} alt='プロフィール画像'/>
-            <div>
-                <span>{props.label}</span>
-                <IconButton>
-                    <label>
-                        <AddPhotoAlternateIcon/>
-                        <NoDisplayInput type='file' onChange={(e)=>uploadImage(e)} />
-                    </label>
-                </IconButton>
-            </div>
-        </div>
+        <FlexBox>
+                <Avatar src={props.image.path} alt='プロフィール画像'/>
+                <div>
+                    <span>{props.label}</span>
+                        <IconButton>
+                            <IconLabel>
+                                <AddPhotoAlternateIcon color={'inherit'}/>
+                                <NoDisplayInput type='file' onChange={(e)=>uploadImage(e)} />
+                            </IconLabel>
+                        </IconButton>
+                </div>
+            </FlexBox>
 
     )
 }

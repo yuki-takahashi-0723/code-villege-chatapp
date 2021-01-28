@@ -4,23 +4,38 @@ import styled from 'styled-components'
 import { auth } from '../config/firebase'
 import { AuthContext } from '../AuthService'
 import { Redirect } from 'react-router-dom'
+import SignInImg from '../img/03E93616-2EB5-4EE9-BC5A-811687D40B5F.jpeg'
 
 const ComponentWrap = styled.div`
     position:relative;
     height:100vh;
+    background-image:url(${SignInImg});
+    background-size:cover;
+    /* background-repeat:no-repeat; */
+    background-position:50% 100%;
+    color:#CCFF66;
+    text-shadow:0.5px 0 2px  black;
 `
 
 const InputForm = styled.form`
-    width:30%;
+   background-color:rgba(255,255,255,0.8);
+    height:20rem;
+    width:27rem;
     text-align:center;
     position:absolute;
-    top:30%;
+    top:10%;
     right:0;
     bottom:0;
     left:0;
     margin:auto;
+    padding:0 20px;   
 `
-
+const SignUpLink = styled.p` 
+    :hover{
+        border-bottom: solid 1px #00FF00;
+        color:#00FF00;
+    }
+`
 
 const SignIn = ({history}) =>{
 
@@ -92,9 +107,11 @@ const SignIn = ({history}) =>{
                 </div>
                 <MiniSpecer/>
                 <PraymaryButton
-                    label={'サインイン'}
+                    label={'サインイン'} type={'submit'} 
                 />
+                <SignUpLink　onClick={()=>history.push('/signup')}>未登録の方はこちら</SignUpLink>
             </InputForm>
+            
         </ComponentWrap>
     )
 }

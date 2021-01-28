@@ -6,13 +6,13 @@ const ButtonCenter = styled.div`
   text-align:center;
 `
 
-const PraymaryButton = (props) =>{
+const ClickButton = (props) =>{
     return (
       <ButtonCenter>
           <Button
              variant='contained'
-              color='secondary'
-              type={props.type}
+              color='primary'
+              onClick={props.onClick}
               
           >
           {props.label}
@@ -21,4 +21,4 @@ const PraymaryButton = (props) =>{
     )
 }
 
-export default PraymaryButton
+export default ClickButton

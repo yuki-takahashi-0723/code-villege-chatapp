@@ -4,27 +4,35 @@ import styled from 'styled-components'
 import { auth } from '../config/firebase'
 import { AuthContext } from '../AuthService'
 import { Redirect } from 'react-router-dom'
-
+import  SignUpImg  from '../img/A8F99755-43CF-4391-B5BD-16AF4CFB21F2_1_105_c.jpeg'
 const ComponentWrap = styled.div`
     position:relative;
     height:100vh;
+    background-image:url(${SignUpImg});
+    background-size:cover;
+    color:#CCFF66;
+    text-shadow:0.5px 0 2px  black;
 `
-
 const InputForm = styled.form`
-    width:30%;
+    background-color:rgba(255,255,255,0.8);
+    height:30rem;
+    width:27rem;
     text-align:center;
     position:absolute;
-    top:30%;
+    top:10%;
     right:0;
     bottom:0;
     left:0;
     margin:auto;
+    padding:0 20px;   
 `
-
-
-
-
-
+const LoginLink = styled.p`
+    
+    :hover{
+        border-bottom: solid 1px #00FF00;
+        color:#00FF00;
+    }
+`
 
 const SignUp = ({history}) =>{
 
@@ -72,10 +80,6 @@ const SignUp = ({history}) =>{
     }
 
 
-
-
-
-
     return (
         <ComponentWrap>
             <InputForm onSubmit={handleSubmit}>
@@ -116,11 +120,13 @@ const SignUp = ({history}) =>{
                         type={'password'}
                     />
                 </div>
+                <MiniSpecer/>
                 <ImageArea setImage={setImage} image={image} label={'プロフィール画像を設定する'}/>
                 <MiniSpecer/>
                 <PraymaryButton
-                    label={'登録'}
+                    label={'登録'}  type={'submit'} 
                 />
+                <LoginLink　onClick={()=>history.push('/signin')}>すでに登録済の方はこちら</LoginLink>
             </InputForm>
         </ComponentWrap>
     )
