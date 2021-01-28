@@ -11,17 +11,24 @@ const AllWrap = styled.div`
 `
 
 const Title = styled.h2`
-    font-size:50px;
+    font-size:30px;
     font-family: 'Amatic SC', cursive;
     text-shadow:0.1px 0 5px  black;
     margin:0;
     
 `
 
-const TalkArea = styled.div`
-    width:40%;
+const SubmitForm = styled.form`
+    width:50%;
     margin:0 auto;
+
+` 
+
+const TalkArea = styled.div`
+    height:430px;
+    overflow:auto;
 `
+
 
 
 const Room = () =>{
@@ -71,7 +78,7 @@ const Room = () =>{
         const lastVisisble = talks.shift()　//現在の表示画面の１番上
      
         db.collection('message').orderBy('created_at','asc')
-            .endBefore(lastVisisble.data.created_at).limitToLast(5)
+            .endBefore(lastVisisble.data.created_at).limitToLast(20)
             .get().then(snapshot=>{
                 const setBackVisible = snapshot.docs.map(doc=>({id:doc.id,data:doc.data()}))
               
@@ -88,7 +95,7 @@ const Room = () =>{
         const firstVisisble = talks[talks.length - 1]　//表示の最後のコメント
         // console.log(firstVisisble)
         db.collection('message').orderBy('created_at','asc')
-        .startAfter(firstVisisble.data.created_at).limitToLast(5)
+        .startAfter(firstVisisble.data.created_at).limitToLast(20)
         .get().then(snapshot=>{
             const setAdvanceVisible = snapshot.docs.map(doc=>({id:doc.id,data:doc.data()}))
             // console.log(setAdvanceVisible)
@@ -98,10 +105,15 @@ const Room = () =>{
             setTalks(setAdvanceVisible)
         })
     }
-
+    useEffect(()=>{
+        const scrrollArea = document.getElementById("scroll-area")
+       if(scrrollArea){
+         scrrollArea.scrollTop = scrrollArea.scrollHeight
+       }
+    })
         
     useEffect(()=>{
-        db.collection('message').orderBy('created_at','asc').limitToLast(5)
+        db.collection('message').orderBy('created_at','asc').limitToLast(20)
         .onSnapshot(snapshot=>{
             setTalks(snapshot.docs.map(doc=>({id:doc.id,data:doc.data()})))
         })
@@ -112,45 +124,48 @@ const Room = () =>{
     return (
         <AllWrap>
                 <Title>Chat Room</Title>
-            <TalkArea>
-                <form onSubmit={handleSubmit}> 
-                {talks.map(talk=>(
-                    <ComentCard 
-                        key={talk.id}
-                        avater={talk.data.icon}
-                        userName={talk.data.user}
-                        coment={talk.data.content}
-                        image={talk.data.image} 
-                    />
+                <SubmitForm onSubmit={handleSubmit}> 
+                        <TalkArea id='scroll-area'>
+                            {talks.map(talk=>(
+                                <ComentCard 
+                                    key={talk.id}
+                                    avater={talk.data.icon}
+                                    userName={talk.data.user}
+                                    coment={talk.data.content}
+                                    image={talk.data.image} 
+                                />
 
-                )
-                )}
-                    <NextIconButton backlog={backlog} advancelog={advancelog}/>
-                    <MiniSpecer/>
-                    <TextInput
-                        label={'コメント入力'}
-                        fullWidth={true}
-                        required={true}
-                        multiline={true}
-                        rows={5}
-                        value={coment}
-                        onChange={inputComent}
-                        type={'text'}
-                    />
-                    <MiniSpecer/>
-                    <ImageArea image={image} setImage={setImage}　label={'画像を投稿する'}/>
-                    <MiniSpecer/>
-                    <PraymaryButton
-                        label={'コメント送信'} type={'submit'}
-                    />  
+                            )
+                            )}
                     
-                    <MiniSpecer/>
-                </form>
-                <ClickButton
-                    label={'サインアウトする'}　 onClick={()=>auth.signOut()}
-                />
-              
-            </TalkArea>
+                        </TalkArea>
+                        
+                            <NextIconButton backlog={backlog} advancelog={advancelog}/>
+                            
+                            <TextInput
+                                label={'コメント入力'}
+                                fullWidth={true}
+                                required={true}
+                                multiline={true}
+                                rows={3}
+                                value={coment}
+                                onChange={inputComent}
+                                type={'text'}
+                                variant={'outlined'}
+                            />
+                          
+                            <ImageArea image={image} setImage={setImage}　label={'画像を投稿する'}/>
+                           
+                            <PraymaryButton
+                                label={'コメント送信'} type={'submit'}
+                            />  
+                            
+                            <MiniSpecer/>
+                            <ClickButton
+                                label={'サインアウトする'}　 onClick={()=>auth.signOut()}
+                            />
+                        
+                </SubmitForm>
         </AllWrap>
         
     )

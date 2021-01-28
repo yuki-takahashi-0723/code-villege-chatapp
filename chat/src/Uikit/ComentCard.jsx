@@ -21,6 +21,7 @@ const ComentCard = (props) =>{
  
     return (
         <>
+            <MiniSpecer/>
             <Card >
             <CardHeader
                     avatar={
@@ -48,7 +49,6 @@ const ComentCard = (props) =>{
                 </CardContent>
 
             </Card>
-            <MiniSpecer/>
         </>
     )
 }

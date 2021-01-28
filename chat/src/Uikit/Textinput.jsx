@@ -5,6 +5,7 @@ const TextInput = (props) =>{
    
     return (
         <TextField 
+            variant={props.variant}
             margin={'dense'}
             label={props.label}
             fullWidth={props.fullWidth}

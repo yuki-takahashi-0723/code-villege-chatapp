@@ -6,12 +6,17 @@ import styled from 'styled-components'
 
 const  ButtonPosition = styled.div`
     display:flex;
-    justify-content:space-between;
+    justify-content:space-around;
     align-items:center;
+    margin:0;
+ 
 `
 const ColorP = styled.p`
     color:#CCFF66;
     text-shadow:0.5px 0 4px  black;
+    margin:0;
+    font-size:20px;
+
 
 `
 
