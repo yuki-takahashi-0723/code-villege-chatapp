@@ -28,6 +28,7 @@ const ComentCard = (props) =>{
     const classes = useStyles();
     const image = props.image
     const id = props.id
+    // console.log(props.favoritCount)
  
     return (
         <>

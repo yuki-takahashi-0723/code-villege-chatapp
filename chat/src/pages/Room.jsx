@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { ClickButton, ComentCard, ImageArea, MiniSpecer, NextIconButton, PraymaryButton, TextInput } from '../Uikit'
 import styled from 'styled-components'
-import { auth, db, timestamp } from '../config/firebase'
+import { auth, db, fieldValue, timestamp } from '../config/firebase'
 import { AuthContext } from '../AuthService'
 
 const AllWrap = styled.div`
@@ -79,7 +79,7 @@ const Room = () =>{
         const lastVisisble = talks.shift()　//現在の表示画面の１番上
         db.collection('message').orderBy('created_at','asc')
             .endBefore(lastVisisble.data.created_at).limitToLast(20)
-            .get().then(snapshot=>{
+            .onSnapshot(snapshot=>{
                 const setBackVisible = snapshot.docs.map(doc=>({id:doc.id,data:doc.data()}))
               
                 if(setBackVisible.length === 0){
@@ -95,8 +95,8 @@ const Room = () =>{
         const firstVisisble = talks[talks.length - 1]　//表示の最後のコメント
         // console.log(firstVisisble)
         db.collection('message').orderBy('created_at','asc')
-        .startAfter(firstVisisble.data.created_at).limitToLast(20)
-        .get().then(snapshot=>{
+        .startAfter(firstVisisble.data.created_at).limit(20)
+        .onSnapshot(snapshot=>{
             const setAdvanceVisible = snapshot.docs.map(doc=>({id:doc.id,data:doc.data()}))
             // console.log(setAdvanceVisible)
             if(setAdvanceVisible.length === 0){
@@ -108,17 +108,24 @@ const Room = () =>{
 
     const likeButtonClick=(id)=>{
         setLikeClick(true)
-        db.collection('message').doc(id).get()
-        .then(snapshot=>{
-            let count = snapshot.data().likeCount
-            count = count + 1
-            console.log(count)
-            db.collection('message').doc(id).update({
-                likeCount : count
-            })
-        })   
+        //1月29日時点での記述
+        // db.collection('message').doc(id).get()
+        // .then(snapshot=>{
+        //     let count = snapshot.data().likeCount
+        //     count = count + 1
+        //     console.log(count)
+        //     db.collection('message').doc(id).update({
+        //         likeCount : count
+        //     })
+        // })   
+
+        //1月30日　firebaseIcrementを使用した記述
+        db.collection('message').doc(id).update({
+            likeCount : fieldValue.increment(1)
+        })
+    
     }
-    console.log(likeClick)
+  
 
 
 
@@ -136,6 +143,7 @@ const Room = () =>{
         db.collection('message').orderBy('created_at','asc').limitToLast(20)
         .onSnapshot(snapshot=>{
             setTalks(snapshot.docs.map(doc=>({id:doc.id,data:doc.data()})))
+            console.log('!!!')
         })
     },[])
 
