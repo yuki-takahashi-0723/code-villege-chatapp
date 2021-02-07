@@ -3,11 +3,21 @@ import { ClickButton, ComentCard, ImageArea, MiniSpecer, NextIconButton, Praymar
 import styled from 'styled-components'
 import { auth, db, fieldValue, timestamp } from '../config/firebase'
 import { AuthContext } from '../AuthService'
-
+import JourneyPhoto from '/Users/takahashiyuusei/code villege9/code-villege-chatapp/chat/src/img/camera-1130731_1920.jpg'
+import JourneryPhotoMini from '/Users/takahashiyuusei/code villege9/code-villege-chatapp/chat/src/img/old-1130741_1920.jpg'
 const AllWrap = styled.div`
-    background-color:#f5f5f5;
+    background-image:url(${JourneyPhoto});
+    background-position:center;
     color:#CCFF66;
     text-shadow:0.1px 0 1px  black;
+    height:110vh;
+    width:100%;
+    @media(max-width:600px){
+        background-image:url(${JourneryPhotoMini});
+        background-size:cover;
+        height:140vh;
+
+    }
 `
 const Title = styled.h2`
     font-size:30px;
@@ -17,12 +27,17 @@ const Title = styled.h2`
     
 `
 const SubmitForm = styled.form`
-    width:50%;
+    width:80vw;
     margin:0 auto;
+   @media(min-width:600px){
+       width:60vh;
+   }
 
 ` 
 const TalkArea = styled.div`
+    
     height:430px;
+   
     overflow:auto;
 `
 
@@ -93,12 +108,12 @@ const Room = () =>{
             return false
         }
         const firstVisisble = talks[talks.length - 1]　//表示の最後のコメント
-        // console.log(firstVisisble)
+       
         db.collection('message').orderBy('created_at','asc')
         .startAfter(firstVisisble.data.created_at).limit(20)
         .onSnapshot(snapshot=>{
             const setAdvanceVisible = snapshot.docs.map(doc=>({id:doc.id,data:doc.data()}))
-            // console.log(setAdvanceVisible)
+           
             if(setAdvanceVisible.length === 0){
                 return false
             }

@@ -8,10 +8,10 @@ import SignInImg from '../img/03E93616-2EB5-4EE9-BC5A-811687D40B5F.jpeg'
 
 const ComponentWrap = styled.div`
     position:relative;
-    height:100vh;
+    width:100%;
+    min-height:100vh;
     background-image:url(${SignInImg});
     background-size:cover;
-    /* background-repeat:no-repeat; */
     background-position:50% 100%;
     color:#CCFF66;
     text-shadow:0.5px 0 2px  black;
@@ -20,15 +20,19 @@ const ComponentWrap = styled.div`
 const InputForm = styled.form`
    background-color:rgba(255,255,255,0.8);
     height:20rem;
-    width:27rem;
+    width:80vw;
     text-align:center;
-    position:absolute;
-    top:10%;
-    right:0;
-    bottom:0;
-    left:0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
     margin:auto;
-    padding:0 20px;   
+    padding:0 20px;
+    @media(min-width:600px){
+        width:50vh;
+    }   
 `
 const SignUpLink = styled.p` 
     :hover{
@@ -53,7 +57,7 @@ const SignIn = ({history}) =>{
 
     const user = useContext(AuthContext)
     if(user){
-       return <Redirect to={'/'}/>
+       return <Redirect to={'/room'}/>
     }
 
 
@@ -65,7 +69,7 @@ const SignIn = ({history}) =>{
         auth.signInWithEmailAndPassword(email,password)
             .then(user=>{
                 console.log(user)
-                history.push('/')
+                history.push('/room')
                 setPassword('')
                 setEmail('')
             })

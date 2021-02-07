@@ -26,12 +26,12 @@ const NextIconButton = (props) =>{
     return(
         <ButtonPosition>
         <IconButton onClick={()=>props.backlog()}>
-            <ArrowBackIcon/>
+            <ArrowBackIcon style={{color:'#CCFF66'}}/>
             <ColorP>戻る</ColorP>
         </IconButton>
         <IconButton onClick={()=>props.advancelog()}>
             <ColorP>進む</ColorP>
-            <ArrowForwardIcon />
+            <ArrowForwardIcon style={{color:'#CCFF66'}} />
         </IconButton>
         </ButtonPosition>
     )

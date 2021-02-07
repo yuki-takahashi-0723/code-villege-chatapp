@@ -7,27 +7,33 @@ import { Redirect } from 'react-router-dom'
 import  SignUpImg  from '../img/A8F99755-43CF-4391-B5BD-16AF4CFB21F2_1_105_c.jpeg'
 const ComponentWrap = styled.div`
     position:relative;
-    height:100vh;
+    min-height:100vh;
+    width:100%;
     background-image:url(${SignUpImg});
     background-size:cover;
+    background-position:center;
     color:#CCFF66;
     text-shadow:0.5px 0 2px  black;
 `
 const InputForm = styled.form`
     background-color:rgba(255,255,255,0.8);
-    height:30rem;
-    width:27rem;
+    height:90vh;
+    width:80vw;
     text-align:center;
     position:absolute;
-    top:10%;
-    right:0;
-    bottom:0;
-    left:0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
     margin:auto;
-    padding:0 20px;   
+    padding:0 20px;
+    @media(min-width:600px){
+        height:60vh;
+        width:40vw
+    }   
 `
-const LoginLink = styled.p`
-    
+const LoginLink = styled.p`  
     :hover{
         border-bottom: solid 1px #00FF00;
         color:#00FF00;
@@ -55,7 +61,7 @@ const SignUp = ({history}) =>{
 
     const user = useContext(AuthContext)
     if(user){
-        return <Redirect to={'/'}/>
+        return <Redirect to={'/room'}/>
     }
 
     const handleSubmit = (e)=>{
@@ -69,7 +75,7 @@ const SignUp = ({history}) =>{
                     displayName:name,
                     photoURL:image.path
                 })
-                history.push('/')
+                history.push('/room')
                 setName('')
                 setEmail('')
                 setPassword('')
