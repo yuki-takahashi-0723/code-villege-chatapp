@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/code-villege-chatapp/static/css/main.e0bbd8bc.chunk.css",
+    "main.js": "/code-villege-chatapp/static/js/main.e8f7cba9.chunk.js",
+    "main.js.map": "/code-villege-chatapp/static/js/main.e8f7cba9.chunk.js.map",
+    "runtime-main.js": "/code-villege-chatapp/static/js/runtime-main.916c94bd.js",
+    "runtime-main.js.map": "/code-villege-chatapp/static/js/runtime-main.916c94bd.js.map",
+    "static/js/2.5a06b375.chunk.js": "/code-villege-chatapp/static/js/2.5a06b375.chunk.js",
+    "static/js/2.5a06b375.chunk.js.map": "/code-villege-chatapp/static/js/2.5a06b375.chunk.js.map",
+    "index.html": "/code-villege-chatapp/index.html",
+    "static/css/main.e0bbd8bc.chunk.css.map": "/code-villege-chatapp/static/css/main.e0bbd8bc.chunk.css.map",
+    "static/js/2.5a06b375.chunk.js.LICENSE.txt": "/code-villege-chatapp/static/js/2.5a06b375.chunk.js.LICENSE.txt",
+    "static/media/03E93616-2EB5-4EE9-BC5A-811687D40B5F.f9f7d737.jpeg": "/code-villege-chatapp/static/media/03E93616-2EB5-4EE9-BC5A-811687D40B5F.f9f7d737.jpeg",
+    "static/media/20210203_163636.f1e0986e.jpg": "/code-villege-chatapp/static/media/20210203_163636.f1e0986e.jpg",
+    "static/media/A8F99755-43CF-4391-B5BD-16AF4CFB21F2_1_105_c.51409c4f.jpeg": "/code-villege-chatapp/static/media/A8F99755-43CF-4391-B5BD-16AF4CFB21F2_1_105_c.51409c4f.jpeg",
+    "static/media/camera-1130731_1920.1345b04f.jpg": "/code-villege-chatapp/static/media/camera-1130731_1920.1345b04f.jpg",
+    "static/media/old-1130741_1920.b21d9f42.jpg": "/code-villege-chatapp/static/media/old-1130741_1920.b21d9f42.jpg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.916c94bd.js",
+    "static/js/2.5a06b375.chunk.js",
+    "static/css/main.e0bbd8bc.chunk.css",
+    "static/js/main.e8f7cba9.chunk.js"
+  ]
+}

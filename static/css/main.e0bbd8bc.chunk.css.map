@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack://src/Style.css"],"names":[],"mappings":"AAKA,UAJI,WAAY,CACZ,UAOJ,CAJA,KAGI,QACJ,CAEA,MACI,WAAY,CACZ,UACJ","file":"main.e0bbd8bc.chunk.css","sourcesContent":["html {\n    height: 100%;\n    width: 100%;\n}\n\nbody {\n    height: 100%;\n    width: 100%;\n    margin: 0;\n}\n\n#root {\n    height: 100%;\n    width: 100%;\n}"]}
